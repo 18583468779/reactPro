@@ -1,21 +1,49 @@
 import * as React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import styles from "./ManageLayout.module.scss";
+import { Button, Divider, Space } from "antd";
+import {
+  BarsOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  StarOutlined,
+} from "@ant-design/icons";
 export const ManageLayout: React.FC = () => {
+  const { pathname } = useLocation();
+
+  //按钮颜色tab
+  const getPath = (path: string) =>
+    pathname === `/manage/${path}` ? "default" : "text";
+
   return (
     <div className={styles.container}>
       <div className={styles.left}>
-        ManageLayout left
-        <button>创建问卷</button>
-        <div>
-          <Link to={"/"}>我的问卷</Link>
-        </div>
-        <div>
-          <Link to={"/"}>星标问卷</Link>
-        </div>
-        <div>
-          <Link to={"/"}>回收站</Link>
-        </div>
+        <Space direction="vertical">
+          <Button type="primary" size="large" icon={<PlusOutlined />}>
+            创建问卷
+          </Button>
+          <Divider />
+          <Link to={"/manage/list"}>
+            <Button type={getPath("list")} size="large" icon={<BarsOutlined />}>
+              我的问卷
+            </Button>
+          </Link>
+          <Link to={"/manage/star"}>
+            <Button type={getPath("star")} size="large" icon={<StarOutlined />}>
+              星标问卷
+            </Button>
+          </Link>
+          <Link to={"/manage/trash"}>
+            <Button
+              type={getPath("trash")}
+              size="large"
+              icon={<DeleteOutlined />}
+            >
+              回收站
+            </Button>
+          </Link>
+        </Space>
       </div>
       <div className={styles.right}>
         <Outlet />

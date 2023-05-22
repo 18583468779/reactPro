@@ -30,6 +30,24 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
+        path: "manage",
+        element: <ManageLayout />,
+        children: [
+          {
+            path: "list",
+            element: <List />,
+          },
+          {
+            path: "trash",
+            element: <Trash />,
+          },
+          {
+            path: "star",
+            element: <Star />,
+          },
+        ],
+      },
+      {
         path: "*",
         element: <NotFound />,
       },
