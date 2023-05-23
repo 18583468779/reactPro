@@ -83,7 +83,6 @@ const Trash: FC = () => {
     },
   ];
 
-  // 可以把 JSX 片段定义为一个变量
   const TableElem = (
     <>
       <div style={{ marginBottom: "16px" }}>
