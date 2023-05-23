@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Typography, Space, Form, Input, Button, Checkbox } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
@@ -13,10 +13,37 @@ const USERNAME_KEY = "USERNAME";
 const PASSWORD_KEY = "PASSWORD";
 
 const Login: FC = () => {
+  const [form] = Form.useForm();
+
   const onFinish = (values: any) => {
-    console.log(values);
+    const { username, password, remember } = values;
+    if (remember) {
+      rememberUser(username, password);
+    } else {
+      deleteRememberUser();
+    }
   };
 
+  const rememberUser = (username: string, password: string) => {
+    localStorage.setItem(USERNAME_KEY, username);
+    localStorage.setItem(PASSWORD_KEY, password);
+  };
+  const deleteRememberUser = () => {
+    localStorage.removeItem(USERNAME_KEY);
+    localStorage.removeItem(PASSWORD_KEY);
+  };
+
+  const getUserInfo = () => {
+    return {
+      username: localStorage.getItem(USERNAME_KEY),
+      password: localStorage.getItem(PASSWORD_KEY),
+    };
+  };
+
+  useEffect(() => {
+    const { username, password } = getUserInfo();
+    form.setFieldsValue({ username, password });
+  }, []);
   return (
     <div className={styles.container}>
       <div>
@@ -33,6 +60,7 @@ const Login: FC = () => {
           wrapperCol={{ span: 16 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
+          form={form}
         >
           <Form.Item label="用户名" name="username">
             <Input />
