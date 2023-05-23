@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import QuestionCard from "../../components/QuestionCard";
 import { Empty, Typography } from "antd";
 import { useTitle } from "ahooks";
+import { ListSearch } from "../../components/ListSearch";
 
 const dataList = [
   {
@@ -36,10 +37,19 @@ const Star: FC = () => {
   const [data, setData] = useState(dataList);
   return (
     <div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Title level={3}>星标问卷</Title>
+        <div>
+          <ListSearch />
+        </div>
       </div>
-      <div>
+      <div style={{ marginTop: "50px" }}>
         {data.length === 0 && <Empty description="暂无数据" />}
         {data.length !== 0 &&
           data.map((item) => <QuestionCard key={item._id} {...item} />)}

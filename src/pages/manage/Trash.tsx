@@ -13,6 +13,7 @@ import {
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import styles from "../../components/common.module.scss";
+import { ListSearch } from "../../components/ListSearch";
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -114,12 +115,21 @@ const Trash: FC = () => {
 
   return (
     <>
-      <div className={styles.header}>
-        <div className={styles.left}>
-          <Title level={3}>回收站</Title>
+      <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Title level={3}>我的问卷</Title>
+          <div>
+            <ListSearch />
+          </div>
         </div>
       </div>
-      <div className={styles.content}>
+      <div style={{ marginTop: "50px" }}>
         {/* {
           <div style={{ textAlign: "center" }}>
             <Spin />
@@ -128,7 +138,7 @@ const Trash: FC = () => {
         {data.length === 0 && <Empty description="暂无数据" />}
         {data.length > 0 && TableElem}
       </div>
-      <div className={styles.footer}>footer</div>
+      <div>footer</div>
     </>
   );
 };
