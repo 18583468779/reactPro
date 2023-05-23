@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import QuestionCard from "../../components/QuestionCard";
+import { Empty, Typography } from "antd";
 
 const dataList = [
   {
@@ -28,12 +29,19 @@ const dataList = [
   },
 ];
 
+const { Title } = Typography;
 const List: FC = () => {
+  const [data, setData] = useState(dataList);
   return (
     <div>
-      {dataList.map((item) => (
-        <QuestionCard key={item._id} {...item} />
-      ))}
+      <div>
+        <Title level={3}>我的问卷</Title>
+      </div>
+      <div>
+        {data.length === 0 && <Empty description="暂无数据" />}
+        {data.length !== 0 &&
+          data.map((item) => <QuestionCard key={item._id} {...item} />)}
+      </div>
     </div>
   );
 };
