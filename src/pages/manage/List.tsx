@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import QuestionCard from "../../components/QuestionCard";
 import { Empty, Typography } from "antd";
+import { useTitle } from "ahooks";
 
 const dataList = [
   {
@@ -31,6 +32,8 @@ const dataList = [
 
 const { Title } = Typography;
 const List: FC = () => {
+  useTitle("我的问卷 - 列表");
+
   const [data, setData] = useState(dataList);
   return (
     <div>
