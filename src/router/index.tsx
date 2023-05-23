@@ -48,6 +48,20 @@ const router = createBrowserRouter([
         ],
       },
       {
+        path: "question",
+        element: <QuestionLayout />,
+        children: [
+          {
+            path: "Edit/:id",
+            element: <Edit />,
+          },
+          {
+            path: "stat/:id",
+            element: <Stat />,
+          },
+        ],
+      },
+      {
         path: "*",
         element: <NotFound />,
       },
