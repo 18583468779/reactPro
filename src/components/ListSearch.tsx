@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Input, Space } from "antd";
-import { useEffect, useState } from "react";
+import { ChangeEventHandler, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { SEARCH_INPUT_VAL } from "../constant";
 const { Search } = Input;
@@ -10,7 +10,7 @@ export const ListSearch: React.FC = () => {
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
   const [inputVal, setInputVal] = useState("");
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setInputVal(e.target.value);
   };
 
