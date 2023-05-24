@@ -11,10 +11,8 @@ const instance = axios.create({
 });
 
 instance.interceptors.response.use((res) => {
-  console.log("123");
   const { data, errno, msg } = (res.data || {}) as ResType;
   if (errno !== 0) {
-    console.log(res, "123213");
     if (msg) {
       message.error(msg);
     }

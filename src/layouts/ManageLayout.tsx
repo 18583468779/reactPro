@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import styles from "./ManageLayout.module.scss";
 import { Button, Divider, Space } from "antd";
 import {
@@ -9,18 +8,28 @@ import {
   PlusOutlined,
   StarOutlined,
 } from "@ant-design/icons";
+import { createQuestionService } from "../lib/question";
 export const ManageLayout: React.FC = () => {
   const { pathname } = useLocation();
-
+  const nav = useNavigate();
   //按钮颜色tab
   const getPath = (path: string) =>
     pathname === `/manage/${path}` ? "default" : "text";
-
+  const handleCreateQuestion = async () => {
+    //创建问卷
+    const res = await createQuestionService();
+    nav(`/question/edit/${res.id}`);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.left}>
         <Space direction="vertical">
-          <Button type="primary" size="large" icon={<PlusOutlined />}>
+          <Button
+            type="primary"
+            size="large"
+            icon={<PlusOutlined />}
+            onClick={handleCreateQuestion}
+          >
             创建问卷
           </Button>
           <Divider />
