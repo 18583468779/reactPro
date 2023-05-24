@@ -30,20 +30,79 @@ const Register: FC = () => {
           wrapperCol={{ span: 16 }}
           onFinish={onFinish}
         >
-          <Form.Item label="用户名" name="username">
+          <Form.Item
+            label="用户名"
+            name="username"
+            rules={[
+              { required: true, message: "请输入用户名!" },
+              {
+                type: "string",
+                min: 2,
+                max: 10,
+                message: "长度只能在2-10之间",
+              },
+              {
+                pattern: /^[_a-zA-Z0-9]+$/,
+                message: "只能是数字字母下划线",
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="密码" name="password">
+          <Form.Item
+            label="密码"
+            name="password"
+            rules={[
+              { required: true, message: "请输入密码!" },
+              {
+                type: "string",
+                min: 2,
+                max: 10,
+                message: "长度只能在2-10之间",
+              },
+              {
+                pattern: /^[_a-zA-Z0-9]+$/,
+                message: "只能是数字字母下划线",
+              },
+            ]}
+          >
             <Input.Password />
           </Form.Item>
           <Form.Item
             label="确认密码"
             name="confirm"
             dependencies={["password"]}
+            rules={[
+              { required: true, message: "请输入再次确认密码!" },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("两次密码输入不一致！"));
+                },
+              }),
+            ]}
           >
             <Input.Password />
           </Form.Item>
-          <Form.Item label="昵称" name="nickname">
+          <Form.Item
+            label="昵称"
+            name="nickname"
+            rules={[
+              { required: true, message: "请输入昵称!" },
+              {
+                type: "string",
+                min: 2,
+                max: 10,
+                message: "长度只能在2-10之间",
+              },
+              {
+                pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/,
+                message: "只能是数字字母下划线",
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 16 }}>

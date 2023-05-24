@@ -62,10 +62,42 @@ const Login: FC = () => {
           onFinish={onFinish}
           form={form}
         >
-          <Form.Item label="用户名" name="username">
+          <Form.Item
+            label="用户名"
+            name="username"
+            rules={[
+              { required: true, message: "请输入用户名!" },
+              {
+                type: "string",
+                min: 2,
+                max: 10,
+                message: "长度只能在2-10之间",
+              },
+              {
+                pattern: /^[_a-zA-Z0-9]+$/,
+                message: "只能是数字字母下划线",
+              },
+            ]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="密码" name="password">
+          <Form.Item
+            label="密码"
+            name="password"
+            rules={[
+              { required: true, message: "请输入密码!" },
+              {
+                type: "string",
+                min: 2,
+                max: 10,
+                message: "长度只能在2-10之间",
+              },
+              {
+                pattern: /^[_a-zA-Z0-9]+$/,
+                message: "只能是数字字母下划线",
+              },
+            ]}
+          >
             <Input.Password />
           </Form.Item>
           <Form.Item
