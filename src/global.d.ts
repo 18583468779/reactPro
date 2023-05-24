@@ -1,7 +1,7 @@
 export type ResType = {
   errno: number;
-  data: DataType;
-  msg: string;
+  data?: DataType;
+  msg?: string;
 };
 
 export type DataType = {
