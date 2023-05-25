@@ -34,7 +34,6 @@ const dataList = [
 const { Title } = Typography;
 const List: FC = () => {
   useTitle("我的问卷 - 列表");
-
   const [data, setData] = useState(dataList);
   return (
     <div>
