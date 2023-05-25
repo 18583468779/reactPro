@@ -10,21 +10,26 @@ import {
 } from "@ant-design/icons";
 import { createQuestionService } from "../lib/question";
 import { useState } from "react";
+import { useRequest } from "ahooks";
 export const ManageLayout: React.FC = () => {
   const { pathname } = useLocation();
-  const [loading, setLoading] = useState(false); //设置loading
   const nav = useNavigate();
   //按钮颜色tab
   const getPath = (path: string) =>
     pathname === `/manage/${path}` ? "default" : "text";
-  const handleCreateQuestion = async () => {
-    setLoading(true);
-    //创建问卷
-    const res = await createQuestionService();
-    nav(`/question/edit/${res.id}`);
-    message.success("创建成功");
-    setLoading(false);
-  };
+
+  const {
+    loading,
+    // error,
+    run: handleCreateQuestion,
+  } = useRequest(createQuestionService, {
+    manual: true,
+    onSuccess(res) {
+      nav(`/question/edit/${res.id}`);
+      message.success("创建成功");
+    },
+  });
+
   return (
     <div className={styles.container}>
       <div className={styles.left}>
