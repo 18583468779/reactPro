@@ -1,5 +1,5 @@
 import axios from "./ajax";
-import { ResType } from "../global";
+import { DataType, ResType } from "../global";
 
 //获取问卷
 export async function getQuestionService(id: string): Promise<ResType> {
@@ -12,5 +12,12 @@ export async function getQuestionService(id: string): Promise<ResType> {
 export async function createQuestionService(): Promise<{ id: string }> {
   const url = `/api/question`;
   const data = (await axios.post(url)) as { id: string };
+  return data;
+}
+
+//获取（所有）问卷
+export async function getQuestionAllService(): Promise<DataType> {
+  const url = `/api/question`;
+  const data = (await axios.get(url)) as DataType;
   return data;
 }
