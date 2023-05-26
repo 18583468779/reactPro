@@ -2,8 +2,9 @@ import { useRequest } from "ahooks";
 import { getQuestionAllService } from "../lib/question";
 import { useSearchParams } from "react-router-dom";
 import { SEARCH_INPUT_VAL } from "../constant";
+import { ParamsType } from "../global";
 
-export const useSearchQuestionData = () => {
+export const useSearchQuestionData = (option?: ParamsType) => {
   const [searchParams] = useSearchParams();
   const keyword = searchParams.get(SEARCH_INPUT_VAL) || "";
   const {
@@ -12,7 +13,7 @@ export const useSearchQuestionData = () => {
     loading,
   } = useRequest(
     async () => {
-      const data = await getQuestionAllService({ keyword });
+      const data = await getQuestionAllService({ keyword, ...option });
       return data;
     },
     {

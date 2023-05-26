@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import { FC } from "react";
 import { useTitle } from "ahooks";
 import {
   Typography,
@@ -12,41 +12,21 @@ import {
   message,
 } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import styles from "../../components/common.module.scss";
 import { ListSearch } from "../../components/ListSearch";
+import { useSearchQuestionData } from "../../hook/useSearchQuestionData";
+import QuestionCard from "../../components/QuestionCard";
 
 const { Title } = Typography;
 const { confirm } = Modal;
 
-const dataList = [
-  {
-    _id: "1",
-    title: "问卷1",
-    isStar: false,
-    isPublished: false,
-    answerCount: 100,
-    createdAt: "2023-05-23 9:03",
-  },
-  {
-    _id: "2",
-    title: "问卷2",
-    isStar: true,
-    isPublished: true,
-    answerCount: 100,
-    createdAt: "2023-05-23 9:03",
-  },
-  {
-    _id: "3",
-    title: "问卷3",
-    isStar: false,
-    isPublished: false,
-    answerCount: 100,
-    createdAt: "2023-05-23 9:03",
-  },
-];
 const Trash: FC = () => {
   useTitle("我的问卷 - 回收站");
-  const [data, setData] = useState(dataList);
+  const {
+    data = {},
+    error,
+    loading,
+  } = useSearchQuestionData({ isDeleted: true });
+  const { list = [], total = 0 } = data;
 
   function del() {
     confirm({
@@ -98,7 +78,7 @@ const Trash: FC = () => {
       </div>
       <div style={{ border: "1px solid #e8e8e8" }}>
         <Table
-          dataSource={data}
+          dataSource={list}
           columns={tableColumns}
           pagination={false}
           rowKey={(q) => q._id}
@@ -129,15 +109,17 @@ const Trash: FC = () => {
           </div>
         </div>
       </div>
+      {loading ? (
+        <div style={{ textAlign: "center" }}>
+          <Spin />
+        </div>
+      ) : null}
       <div style={{ marginTop: "50px" }}>
-        {/* {
-          <div style={{ textAlign: "center" }}>
-            <Spin />
-          </div>
-        } */}
-        {data.length === 0 && <Empty description="暂无数据" />}
-        {data.length > 0 && TableElem}
+        {!loading && list.length === 0 && <Empty description="暂无数据" />}
+        {list.length !== 0 &&
+          list.map((item: any) => <QuestionCard key={item._id} {...item} />)}
       </div>
+
       <div>footer</div>
     </>
   );
