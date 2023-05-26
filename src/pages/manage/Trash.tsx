@@ -15,6 +15,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { ListSearch } from "../../components/ListSearch";
 import { useSearchQuestionData } from "../../hook/useSearchQuestionData";
 import QuestionCard from "../../components/QuestionCard";
+import { ListPagination } from "../../components/ListPagination";
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -118,6 +119,7 @@ const Trash: FC = () => {
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
         {list.length !== 0 &&
           list.map((item: any) => <QuestionCard key={item._id} {...item} />)}
+        <div>{list.length !== 0 && <ListPagination total={total} />}</div>
       </div>
 
       <div>footer</div>

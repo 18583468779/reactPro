@@ -4,6 +4,7 @@ import { Empty, Spin, Typography } from "antd";
 import { useTitle } from "ahooks";
 import { ListSearch } from "../../components/ListSearch";
 import { useSearchQuestionData } from "../../hook/useSearchQuestionData";
+import { ListPagination } from "../../components/ListPagination";
 
 const { Title } = Typography;
 const Star: FC = () => {
@@ -34,6 +35,7 @@ const Star: FC = () => {
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
         {list.length !== 0 &&
           list.map((item: any) => <QuestionCard key={item._id} {...item} />)}
+        <div>{list.length !== 0 && <ListPagination total={total} />}</div>
       </div>
     </div>
   );
