@@ -3,6 +3,8 @@ import { Input, Space } from "antd";
 import { ChangeEventHandler, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { SEARCH_INPUT_VAL } from "../constant";
+import { getQuestionAllService } from "../lib/question";
+import { useSearchQuestionData } from "../hook/useSearchQuestionData";
 const { Search } = Input;
 
 export const ListSearch: React.FC = () => {
@@ -14,7 +16,7 @@ export const ListSearch: React.FC = () => {
     setInputVal(e.target.value);
   };
 
-  const onSearch = (value: string) => {
+  const onSearch = async (value: string) => {
     nav({
       pathname,
       search: `${SEARCH_INPUT_VAL}=${value}`,

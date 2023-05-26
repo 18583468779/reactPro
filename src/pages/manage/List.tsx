@@ -1,19 +1,20 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import QuestionCard from "../../components/QuestionCard";
 import { Empty, Spin, Typography } from "antd";
-import { useRequest, useTitle } from "ahooks";
+import { useTitle } from "ahooks";
 import { ListSearch } from "../../components/ListSearch";
-import { getQuestionAllService } from "../../lib/question";
+import { useSearchQuestionData } from "../../hook/useSearchQuestionData";
 
 const { Title } = Typography;
 const List: FC = () => {
   useTitle("我的问卷 - 列表");
 
-  const { data = {}, error, loading } = useRequest(getQuestionAllService);
+  const { data = {}, error, loading } = useSearchQuestionData();
   const { list = [], total = 0 } = data;
-  console.log(data);
+
+  // console.log(data);
   return (
-    <div>
+    <div style={{ maxWidth: "90%" }}>
       <div
         style={{
           display: "flex",
