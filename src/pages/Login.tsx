@@ -17,6 +17,7 @@ import styles from "./Login.module.scss";
 import { login } from "../global";
 import { useRequest } from "ahooks";
 import { loginUserService } from "../lib/user";
+import { setToken } from "../lib/userToken";
 
 const { Title } = Typography;
 
@@ -32,7 +33,7 @@ const Login: FC = () => {
       manual: true,
       onSuccess(res) {
         message.success("登录成功");
-        console.log(res);
+        setToken(res.token);
         nav(MANAGE_INDEX_PATHNAME);
       },
     }
