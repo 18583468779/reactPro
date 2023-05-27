@@ -32,7 +32,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const { confirm } = Modal;
 
   const [isStarState, setIsStarState] = useState(isStar);
-
+  const [isDeletedState, setIsDeletedState] = useState(false);
   const { loading: isStarLoading, run: isStarRun } = useRequest(
     async () => {
       //标星和取消标星
@@ -59,13 +59,29 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
     }
   );
 
+  const { loading: deleteLoading, run: deleteRun } = useRequest(
+    //假删除
+    async () => await updateQuestionService(_id, { isDeleted: true }),
+    {
+      manual: true,
+      onSuccess() {
+        setIsDeletedState(true);
+        message.success("删除成功");
+      },
+    }
+  );
+
   const deleteFn = () => {
     confirm({
       title: "请确认是否删除？",
       icon: <ExclamationCircleOutlined />,
-      onOk: () => message.success("删除"),
+      onOk: () => {
+        deleteRun();
+      },
     });
   };
+
+  if (isDeletedState) return null; //已经删除就不用渲染，前端处理
 
   return (
     <div className={styles.container}>
@@ -147,7 +163,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               type="text"
               icon={<DeleteOutlined />}
               size="small"
-              disabled={isPublished}
+              disabled={deleteLoading}
               onClick={deleteFn}
             >
               删除
