@@ -25,4 +25,5 @@ export type register = {
 export type login = {
   username: string;
   password: string;
+  remember?: boolean;
 };

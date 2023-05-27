@@ -1,11 +1,22 @@
 import { FC, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Typography, Space, Form, Input, Button, Checkbox } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Typography,
+  Space,
+  Form,
+  Input,
+  Button,
+  Checkbox,
+  message,
+} from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
 
-import { REGISTER_PATHNAME } from "../router";
+import { MANAGE_INDEX_PATHNAME, REGISTER_PATHNAME } from "../router";
 
 import styles from "./Login.module.scss";
+import { login } from "../global";
+import { useRequest } from "ahooks";
+import { loginUserService } from "../lib/user";
 
 const { Title } = Typography;
 
@@ -14,14 +25,27 @@ const PASSWORD_KEY = "PASSWORD";
 
 const Login: FC = () => {
   const [form] = Form.useForm();
+  const nav = useNavigate();
+  const { loading, run } = useRequest(
+    async (values: login) => await loginUserService(values),
+    {
+      manual: true,
+      onSuccess(res) {
+        message.success("登录成功");
+        console.log(res);
+        nav(MANAGE_INDEX_PATHNAME);
+      },
+    }
+  );
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: login) => {
     const { username, password, remember } = values;
     if (remember) {
       rememberUser(username, password);
     } else {
       deleteRememberUser();
     }
+    run({ username, password });
   };
 
   const rememberUser = (username: string, password: string) => {
@@ -109,7 +133,7 @@ const Login: FC = () => {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" disabled={loading}>
                 登录
               </Button>
               <Link to={REGISTER_PATHNAME}>注册新用户</Link>
