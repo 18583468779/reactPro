@@ -2,9 +2,9 @@ import axios from "./ajax";
 import { DataType, ParamsType, ResType, login, register } from "../global";
 
 //获取用户信息
-export async function getUserService(): Promise<DataType> {
+export async function getUserService(): Promise<register> {
   const url = `/api/user/info`;
-  const data = (await axios.get(url)) as DataType;
+  const data = (await axios.get(url)) as register;
   return data;
 }
 
