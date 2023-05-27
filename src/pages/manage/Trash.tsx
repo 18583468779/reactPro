@@ -48,8 +48,7 @@ const Trash: FC = () => {
   );
 
   function refreshFn() {
-    //恢复问卷
-    refreshRun();
+    refreshRun(); //恢复问卷
   }
 
   function del() {
