@@ -15,7 +15,10 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { ListSearch } from "../../components/ListSearch";
 import { useSearchQuestionData } from "../../hook/useSearchQuestionData";
 import { ListPagination } from "../../components/ListPagination";
-import { updateQuestionService } from "../../lib/question";
+import {
+  deleteQuestionService,
+  updateQuestionService,
+} from "../../lib/question";
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -51,12 +54,25 @@ const Trash: FC = () => {
     refreshRun(); //恢复问卷
   }
 
+  const { loading: deleteLoading, run: deleteRun } = useRequest(
+    async () => await deleteQuestionService(selectedIds),
+    {
+      manual: true,
+      onSuccess() {
+        message.success("删除成功");
+      },
+    }
+  );
+
   function del() {
     confirm({
       title: "确认彻底删除该问卷？",
       icon: <ExclamationCircleOutlined />,
       content: "删除以后不可以找回",
-      onOk: message.success("删除成功"),
+      onOk: () => {
+        deleteRun;
+        refresh();
+      },
     });
   }
 
@@ -98,7 +114,11 @@ const Trash: FC = () => {
           >
             恢复
           </Button>
-          <Button danger disabled={selectedIds.length === 0} onClick={del}>
+          <Button
+            danger
+            disabled={selectedIds.length === 0 || deleteLoading}
+            onClick={del}
+          >
             彻底删除
           </Button>
         </Space>

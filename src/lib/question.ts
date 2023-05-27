@@ -37,3 +37,10 @@ export async function duplicateQuestionService(id: string): Promise<DataType> {
   const data = (await axios.post(url, id)) as DataType;
   return data;
 }
+
+//删除问卷
+export async function deleteQuestionService(ids: string[]): Promise<DataType> {
+  const url = `/api/question`;
+  const data = (await axios.delete(url, { data: { ids } })) as DataType;
+  return data;
+}
