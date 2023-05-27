@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useTitle } from "ahooks";
 import {
   Typography,
@@ -28,6 +28,7 @@ const Trash: FC = () => {
     loading,
   } = useSearchQuestionData({ isDeleted: true });
   const { list = [], total = 0 } = data;
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   function del() {
     confirm({
@@ -69,10 +70,10 @@ const Trash: FC = () => {
     <>
       <div style={{ marginBottom: "16px" }}>
         <Space>
-          <Button type="primary" disabled={data.length === 0}>
+          <Button type="primary" disabled={selectedIds.length === 0}>
             恢复
           </Button>
-          <Button danger disabled={data.length === 0} onClick={del}>
+          <Button danger disabled={selectedIds.length === 0} onClick={del}>
             彻底删除
           </Button>
         </Space>
@@ -104,7 +105,7 @@ const Trash: FC = () => {
             alignItems: "center",
           }}
         >
-          <Title level={3}>我的问卷</Title>
+          <Title level={3}>回收问卷</Title>
           <div>
             <ListSearch />
           </div>
@@ -117,12 +118,9 @@ const Trash: FC = () => {
       ) : null}
       <div style={{ marginTop: "50px" }}>
         {!loading && list.length === 0 && <Empty description="暂无数据" />}
-        {list.length !== 0 &&
-          list.map((item: any) => <QuestionCard key={item._id} {...item} />)}
+        {list.length > 0 && TableElem}
         <div>{list.length !== 0 && <ListPagination total={total} />}</div>
       </div>
-
-      <div>footer</div>
     </>
   );
 };

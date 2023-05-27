@@ -23,3 +23,10 @@ export async function getQuestionAllService(
   const data = (await axios.get(url, { params })) as DataType;
   return data;
 }
+
+//更新问卷
+export async function updateQuestionService(id: string, opt: DataType) {
+  const url = `/api/question/${id}`;
+  const data = await axios.patch(url, opt);
+  return data;
+}

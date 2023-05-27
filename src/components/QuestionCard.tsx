@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Space, Divider, Tag, Popconfirm, Modal, message } from "antd";
 import {
@@ -11,6 +11,8 @@ import {
 } from "@ant-design/icons";
 
 import styles from "./QuestionCard.module.scss";
+import { useRequest } from "ahooks";
+import { updateQuestionService } from "../lib/question";
 
 type PropsType = {
   _id: string;
@@ -25,6 +27,23 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const nav = useNavigate();
   const { _id, title, createdAt, answerCount, isPublished, isStar } = props;
   const { confirm } = Modal;
+
+  const [isStarState, setIsStarState] = useState(isStar);
+
+  const { loading: isStarLoading, run: isStarRun } = useRequest(
+    async () => {
+      //标星和取消标星
+      await updateQuestionService(_id, { isStar: !isStarState });
+    },
+    {
+      manual: true,
+      onSuccess() {
+        setIsStarState(!isStarState);
+        message.success("标星操作完成");
+      },
+    }
+  );
+
   const deplicate = () => {
     message.success("复制成功");
   };
@@ -91,9 +110,10 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               type="text"
               icon={<StarOutlined />}
               size="small"
-              disabled={isPublished}
+              disabled={isStarLoading}
+              onClick={isStarRun}
             >
-              {isStar ? "取消标星" : "标星"}
+              {isStarState ? "取消标星" : "标星"}
             </Button>
 
             <Popconfirm

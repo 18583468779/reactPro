@@ -43,7 +43,7 @@ export const ListPagination: React.FC<Props> = (props) => {
   };
 
   return (
-    <div>
+    <div style={{ marginTop: "30px" }}>
       <Pagination
         current={current}
         onChange={onChange}
