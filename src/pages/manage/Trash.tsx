@@ -1,5 +1,5 @@
-import { FC, useState } from "react";
-import { useTitle } from "ahooks";
+import { FC, useEffect, useState } from "react";
+import { useRequest, useTitle } from "ahooks";
 import {
   Typography,
   Empty,
@@ -14,8 +14,8 @@ import {
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { ListSearch } from "../../components/ListSearch";
 import { useSearchQuestionData } from "../../hook/useSearchQuestionData";
-import QuestionCard from "../../components/QuestionCard";
 import { ListPagination } from "../../components/ListPagination";
+import { updateQuestionService } from "../../lib/question";
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -26,9 +26,31 @@ const Trash: FC = () => {
     data = {},
     error,
     loading,
+    refresh,
   } = useSearchQuestionData({ isDeleted: true });
   const { list = [], total = 0 } = data;
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  const { loading: refreshLoading, run: refreshRun } = useRequest(
+    async () => {
+      //恢复问卷
+      for await (const id of selectedIds) {
+        await updateQuestionService(id, { isDeleted: true });
+      }
+    },
+    {
+      manual: true,
+      onSuccess() {
+        refresh(); //强制刷新
+        message.success("恢复成功");
+      },
+    }
+  );
+
+  function refreshFn() {
+    //恢复问卷
+    refreshRun();
+  }
 
   function del() {
     confirm({
@@ -70,7 +92,11 @@ const Trash: FC = () => {
     <>
       <div style={{ marginBottom: "16px" }}>
         <Space>
-          <Button type="primary" disabled={selectedIds.length === 0}>
+          <Button
+            type="primary"
+            disabled={selectedIds.length === 0 || refreshLoading}
+            onClick={refreshFn}
+          >
             恢复
           </Button>
           <Button danger disabled={selectedIds.length === 0} onClick={del}>
@@ -88,6 +114,7 @@ const Trash: FC = () => {
             type: "checkbox",
             onChange: (selectedRowKeys) => {
               console.log(selectedRowKeys);
+              setSelectedIds(selectedRowKeys as string[]);
             },
           }}
         />

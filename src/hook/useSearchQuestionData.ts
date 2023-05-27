@@ -20,6 +20,7 @@ export const useSearchQuestionData = (option?: ParamsType) => {
     data = {},
     error,
     loading,
+    refresh, //调用强制刷新
   } = useRequest(
     async () => {
       const data = await getQuestionAllService({
@@ -35,5 +36,5 @@ export const useSearchQuestionData = (option?: ParamsType) => {
     }
   );
 
-  return { data, error, loading };
+  return { data, error, loading, refresh };
 };
