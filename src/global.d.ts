@@ -15,3 +15,14 @@ export type ParamsType = {
   page?: number;
   pageSize?: number;
 };
+
+export type register = {
+  username: string;
+  password: string;
+  nickname?: string;
+};
+
+export type login = {
+  username: string;
+  password: string;
+};

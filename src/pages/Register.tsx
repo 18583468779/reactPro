@@ -4,14 +4,28 @@ import { UserAddOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { LOGIN_PATHNAME } from "../router";
 import styles from "./Register.module.scss";
+import { useRequest } from "ahooks";
+import { register } from "../global";
+import { registerUserService } from "../lib/user";
 
 const { Title } = Typography;
 
 const Register: FC = () => {
   const nav = useNavigate();
 
-  const onFinish = (values: any) => {
-    console.log(values);
+  const { loading, run } = useRequest(
+    async (values: register) => await registerUserService(values),
+    {
+      manual: true,
+      onSuccess() {
+        message.success("注册成功");
+        nav(LOGIN_PATHNAME);
+      },
+    }
+  );
+
+  const onFinish = (values: register) => {
+    run(values);
   };
 
   return (
@@ -107,7 +121,7 @@ const Register: FC = () => {
           </Form.Item>
           <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
             <Space>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" disabled={loading}>
                 注册
               </Button>
               <Link to={LOGIN_PATHNAME}>已有账户，登录</Link>
