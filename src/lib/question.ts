@@ -30,3 +30,10 @@ export async function updateQuestionService(id: string, opt: DataType) {
   const data = await axios.patch(url, opt);
   return data;
 }
+
+//复制问卷
+export async function duplicateQuestionService(id: string): Promise<DataType> {
+  const url = `/api/question/duplicate/${id}`;
+  const data = (await axios.post(url, id)) as DataType;
+  return data;
+}

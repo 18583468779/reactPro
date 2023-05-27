@@ -12,7 +12,10 @@ import {
 
 import styles from "./QuestionCard.module.scss";
 import { useRequest } from "ahooks";
-import { updateQuestionService } from "../lib/question";
+import {
+  duplicateQuestionService,
+  updateQuestionService,
+} from "../lib/question";
 
 type PropsType = {
   _id: string;
@@ -44,9 +47,17 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
     }
   );
 
-  const deplicate = () => {
-    message.success("复制成功");
-  };
+  const { loading: duplicateLoading, run: duplicateRun } = useRequest(
+    //复制问卷
+    async () => await duplicateQuestionService(_id),
+    {
+      manual: true,
+      onSuccess(res) {
+        message.success("复制成功");
+        nav(`/question/edit/${res.id}`);
+      },
+    }
+  );
 
   const deleteFn = () => {
     confirm({
@@ -64,7 +75,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
             to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}
           >
             <Space>
-              {isStar && <StarOutlined style={{ color: "red" }} />}
+              {isStarState && <StarOutlined style={{ color: "red" }} />}
               {title}
             </Space>
           </Link>
@@ -120,13 +131,13 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               title="确定复制该问卷？"
               okText="确定"
               cancelText="取消"
-              onConfirm={deplicate}
+              onConfirm={duplicateRun}
             >
               <Button
                 type="text"
                 icon={<CopyOutlined />}
                 size="small"
-                disabled={isPublished}
+                disabled={duplicateLoading}
               >
                 复制
               </Button>
