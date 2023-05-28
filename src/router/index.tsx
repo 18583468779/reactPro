@@ -11,6 +11,7 @@ import Trash from "../pages/manage/Trash";
 import Star from "../pages/manage/Star";
 import { Edit } from "../pages/question/Edit";
 import { Stat } from "../pages/question/Stat";
+import { TodoList } from "../components/TodoList";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "Register",
         element: <Register />,
+      },
+      {
+        path: "todo-list",
+        element: <TodoList />,
       },
       {
         path: "manage",
