@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "../layouts/MainLayout";
 import { ManageLayout } from "../layouts/ManageLayout";
 import { QuestionLayout } from "../layouts/QuestionLayout";
@@ -47,6 +47,17 @@ const router = createBrowserRouter([
           },
         ],
       },
+
+      {
+        path: "*",
+        element: <NotFound />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <Outlet />,
+    children: [
       {
         path: "question",
         element: <QuestionLayout />,
@@ -60,10 +71,6 @@ const router = createBrowserRouter([
             element: <Stat />,
           },
         ],
-      },
-      {
-        path: "*",
-        element: <NotFound />,
       },
     ],
   },

@@ -9,8 +9,7 @@ export const QuestionLayout: React.FC = () => {
 
   return (
     <>
-      <div>QuestionLayout header</div>
-      <div>
+      <div style={{ height: "100vh" }}>
         {waitUserData ? (
           <div
             style={{
