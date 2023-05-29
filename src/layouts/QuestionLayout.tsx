@@ -2,8 +2,10 @@ import * as React from "react";
 import { Outlet } from "react-router-dom";
 import { useLoadingUserInfo } from "../hook/useLoadingUserInfo";
 import { Spin } from "antd";
+import { useNavPage } from "../hook/useNavPage";
 export const QuestionLayout: React.FC = () => {
   const { waitUserData } = useLoadingUserInfo();
+  useNavPage(waitUserData);
 
   return (
     <>

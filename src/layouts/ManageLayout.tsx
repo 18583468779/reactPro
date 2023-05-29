@@ -12,8 +12,10 @@ import { createQuestionService } from "../lib/question";
 import { useState } from "react";
 import { useRequest } from "ahooks";
 import { useLoadingUserInfo } from "../hook/useLoadingUserInfo";
+import { useNavPage } from "../hook/useNavPage";
 export const ManageLayout: React.FC = () => {
   const { waitUserData } = useLoadingUserInfo();
+  useNavPage(waitUserData);
 
   const { pathname } = useLocation();
   const nav = useNavigate();

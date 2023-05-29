@@ -5,12 +5,13 @@ import { Layout, Space, Spin } from "antd";
 import { Logo } from "../components/Logo";
 import { UserInfo } from "../components/UserInfo";
 import { useLoadingUserInfo } from "../hook/useLoadingUserInfo";
+import { useNavPage } from "../hook/useNavPage";
 
 const { Header, Footer, Content } = Layout;
 
 export const MainLayout: React.FC = () => {
   const { waitUserData } = useLoadingUserInfo();
-
+  useNavPage(waitUserData);
   return (
     <Space direction="vertical" style={{ width: "100%" }} size={[0, 48]}>
       <Layout>
