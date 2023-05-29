@@ -27,3 +27,8 @@ export type login = {
   password: string;
   remember?: boolean;
 };
+
+export type userInfoType = {
+  username: string;
+  nickname: string;
+};
