@@ -29,6 +29,6 @@ export type login = {
 };
 
 export type userInfoType = {
-  username: string;
-  nickname: string;
+  username?: string;
+  nickname?: string;
 };

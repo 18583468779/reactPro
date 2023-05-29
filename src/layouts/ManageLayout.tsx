@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import styles from "./ManageLayout.module.scss";
-import { Button, Divider, Space, message } from "antd";
+import { Button, Divider, Space, Spin, message } from "antd";
 import {
   BarsOutlined,
   DeleteOutlined,
@@ -11,7 +11,10 @@ import {
 import { createQuestionService } from "../lib/question";
 import { useState } from "react";
 import { useRequest } from "ahooks";
+import { useLoadingUserInfo } from "../hook/useLoadingUserInfo";
 export const ManageLayout: React.FC = () => {
+  const { waitUserData } = useLoadingUserInfo();
+
   const { pathname } = useLocation();
   const nav = useNavigate();
   //按钮颜色tab
@@ -66,7 +69,21 @@ export const ManageLayout: React.FC = () => {
         </Space>
       </div>
       <div className={styles.right}>
-        <Outlet />
+        {waitUserData ? (
+          <div
+            style={{
+              textAlign: "center",
+              height: "calc(100vh - 64px - 65px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Spin />
+          </div>
+        ) : (
+          <Outlet />
+        )}
       </div>
     </div>
   );

@@ -1,13 +1,16 @@
 import * as React from "react";
 import { Outlet } from "react-router-dom";
 import styles from "./MainLayout.module.scss";
-import { Layout, Space } from "antd";
+import { Layout, Space, Spin } from "antd";
 import { Logo } from "../components/Logo";
 import { UserInfo } from "../components/UserInfo";
+import { useLoadingUserInfo } from "../hook/useLoadingUserInfo";
 
 const { Header, Footer, Content } = Layout;
 
 export const MainLayout: React.FC = () => {
+  const { waitUserData } = useLoadingUserInfo();
+
   return (
     <Space direction="vertical" style={{ width: "100%" }} size={[0, 48]}>
       <Layout>
@@ -20,7 +23,21 @@ export const MainLayout: React.FC = () => {
           </div>
         </Header>
         <Content className={styles.main}>
-          <Outlet />
+          {waitUserData ? (
+            <div
+              style={{
+                textAlign: "center",
+                height: "calc(100vh - 64px - 65px)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Spin />
+            </div>
+          ) : (
+            <Outlet />
+          )}
         </Content>
         <Footer className={styles.footer}>
           我的问卷 &copy;2023-2023 Create by xie

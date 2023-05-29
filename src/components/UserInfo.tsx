@@ -6,11 +6,15 @@ import { getUserService } from "../lib/user";
 import { UserOutlined } from "@ant-design/icons";
 import { Button, message } from "antd";
 import { removeToken } from "../lib/userToken";
+import { useGetUserInfo } from "../hook/useGetUserInfo";
+import { useDispatch } from "react-redux";
+import { logoutReducer } from "../store/userReducer";
 export const UserInfo: React.FC = () => {
-  const { data } = useRequest(getUserService);
-  const { username, nickname } = data || {};
+  const dispatch = useDispatch();
+  const { username, nickname } = useGetUserInfo();
   const nav = useNavigate();
   const logout = () => {
+    dispatch(logoutReducer()); //清空redux user
     removeToken();
     message.success("退出登录成功");
     nav(LOGIN_PATHNAME);
