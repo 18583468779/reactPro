@@ -4,7 +4,7 @@ import { Typography, Input } from "antd";
 
 const { Paragraph } = Typography;
 export const QuestionInput: React.FC<QuestionInputType> = (props) => {
-  const { title, placeholder } = props;
+  const { title = "输入框标题", placeholder = "请输入内容" } = props;
   return (
     <div>
       <Paragraph strong>{title}</Paragraph>

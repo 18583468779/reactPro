@@ -2,6 +2,7 @@ import * as React from "react";
 import styles from "./index.module.scss";
 
 import { useLoadingQuestionData } from "../../../hook/useLoadingQuestionData";
+import { EditCanvas } from "./EditCanvas";
 
 export const Edit: React.FC = () => {
   // const { loading, data, error } = useLoadingQuestionData();
@@ -13,8 +14,8 @@ export const Edit: React.FC = () => {
           <div className={styles.left}>left</div>
           <div className={styles.main}>
             <div className={styles["canvas-wrapper"]}>
-              <div style={{ height: "1000px", background: "white" }}>
-                center
+              <div>
+                <EditCanvas />
               </div>
             </div>
           </div>

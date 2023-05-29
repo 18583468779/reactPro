@@ -1,4 +1,4 @@
 export type QuestionInputType = {
-  title: string;
-  placeholder: string;
+  title?: string;
+  placeholder?: string;
 };
