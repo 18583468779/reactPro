@@ -25,7 +25,6 @@ export function useLoadingQuestionData() {
     if (!data) return;
     const { title = "", componentList = [] } = data;
     //componentList存储到redux
-
     dispatch(resetComponents({ componentList }));
   }, [data]);
 

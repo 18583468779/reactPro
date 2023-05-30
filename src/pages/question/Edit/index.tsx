@@ -5,7 +5,7 @@ import { useLoadingQuestionData } from "../../../hook/useLoadingQuestionData";
 import { EditCanvas } from "./EditCanvas";
 
 export const Edit: React.FC = () => {
-  // const { loading, data, error } = useLoadingQuestionData();
+  const { loading, error } = useLoadingQuestionData();
   return (
     <div className={styles.container}>
       header
@@ -15,7 +15,7 @@ export const Edit: React.FC = () => {
           <div className={styles.main}>
             <div className={styles["canvas-wrapper"]}>
               <div>
-                <EditCanvas />
+                <EditCanvas loading={loading} />
               </div>
             </div>
           </div>
