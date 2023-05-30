@@ -11,6 +11,6 @@ export * from "./type";
 export default {
   title: "输入框",
   type: "questionInput",
-  QuestionInput,
+  Component: QuestionInput,
   defaultProps: QuestionInputProps,
 };

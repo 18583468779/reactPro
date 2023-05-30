@@ -1,11 +1,11 @@
 export type QuestionTitleType = {
-  level?: 1 | 2 | 3 | 4 | 5;
+  level?: string;
   text?: string;
-  isCenter?: "center" | "left" | "right";
+  isCenter?: string;
 };
 
 export const QuestionTitleProps = {
-  level: 1,
+  level: "1",
   text: "请输入内容",
   isCenter: "left",
 };

@@ -10,9 +10,9 @@ type Props = {
 };
 export const EditCanvas: React.FC<Props> = (props) => {
   const { loading } = props;
+  const { componentList } = useGetComponentInfo();
 
-  const { state } = useGetComponentInfo();
-  console.log(state);
+  console.log(componentList);
   if (loading) {
     return (
       <div style={{ textAlign: "center", marginTop: "24px" }}>
