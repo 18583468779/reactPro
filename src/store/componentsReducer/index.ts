@@ -9,10 +9,12 @@ export type ComponentInfoType = {
 };
 
 export type ComponentsStateType = {
+  id: string;
   componentList: Array<ComponentInfoType>;
 };
 
 const INIT_STATE: ComponentsStateType = {
+  id: "",
   componentList: [],
 };
 
@@ -27,9 +29,16 @@ export const componentsSlice = createSlice({
     ) => {
       return action.payload;
     },
+    //选中组件
+    changeComponentId: (
+      state: ComponentsStateType,
+      action: PayloadAction<string>
+    ) => {
+      return { ...state, id: action.payload };
+    },
   },
 });
 
-export const { resetComponents } = componentsSlice.actions;
+export const { resetComponents, changeComponentId } = componentsSlice.actions;
 
 export default componentsSlice.reducer;

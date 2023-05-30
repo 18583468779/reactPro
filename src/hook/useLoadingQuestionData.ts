@@ -25,7 +25,7 @@ export function useLoadingQuestionData() {
     if (!data) return;
     const { title = "", componentList = [] } = data;
     //componentList存储到redux
-    dispatch(resetComponents({ componentList }));
+    dispatch(resetComponents({ componentList, id: "" }));
   }, [data]);
 
   //根据id判断执行ajax

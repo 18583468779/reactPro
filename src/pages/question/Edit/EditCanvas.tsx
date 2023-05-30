@@ -3,15 +3,21 @@ import styles from "./EditCanvas.module.scss";
 import { Spin } from "antd";
 import { useGetComponentInfo } from "../../../hook/useGetComponentInfo";
 import { getComponentConfByType } from "../../../components/QuestionComponents";
-import { ComponentInfoType } from "../../../store/componentsReducer";
+import {
+  ComponentInfoType,
+  changeComponentId,
+} from "../../../store/componentsReducer";
+import { useDispatch } from "react-redux";
 
 type Props = {
   loading: boolean;
 };
 export const EditCanvas: React.FC<Props> = (props) => {
+  const dispatch = useDispatch();
   const { loading } = props;
-  const { componentList } = useGetComponentInfo();
+  const { componentList, id } = useGetComponentInfo();
 
+  // console.log(id, "id");
   function getComponent(componentInfo: ComponentInfoType) {
     const { type, props } = componentInfo;
     const componentConf = getComponentConfByType(type);
@@ -26,12 +32,28 @@ export const EditCanvas: React.FC<Props> = (props) => {
       </div>
     );
   }
+
+  const handleClick = (id: string) => {
+    //选中组件
+    dispatch(changeComponentId(id));
+  };
+
   return (
     <div className={styles.canvas}>
       {componentList.map((c) => {
         const { fe_id } = c;
+
+        const styleSelected =
+          fe_id === id
+            ? [styles["component-wrapper"], styles.selected].join(" ")
+            : styles["component-wrapper"];
+
         return (
-          <div className={styles["component-wrapper"]} key={fe_id}>
+          <div
+            className={styleSelected}
+            key={fe_id}
+            onClick={() => handleClick(fe_id)}
+          >
             <div className={styles.component}>{getComponent(c)}</div>
           </div>
         );
