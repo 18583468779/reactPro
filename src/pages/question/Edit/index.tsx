@@ -12,7 +12,7 @@ export const Edit: React.FC = () => {
 
   const handleClickCancel = () => {
     //点击空余部位取消组件选中
-    dispatch(changeComponentId("0"));
+    dispatch(changeComponentId(""));
   };
 
   return (
