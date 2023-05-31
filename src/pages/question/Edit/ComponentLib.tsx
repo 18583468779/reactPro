@@ -4,12 +4,40 @@ import {
   ComponentConfType,
   componentConfGroup,
 } from "../../../components/QuestionComponents";
-import Title from "antd/es/typography/Title";
+import { Typography } from "antd";
+import { useDispatch } from "react-redux";
+import {
+  ComponentInfoType,
+  addComponent,
+} from "../../../store/componentsReducer";
+import { nanoid } from "nanoid";
+
+const { Title } = Typography;
+
 export const ComponentLib: React.FC = () => {
+  const dispatch = useDispatch();
+
   function getComponent(c: ComponentConfType) {
-    const { title, type, Component } = c;
+    const { title, type, Component, defaultProps } = c;
+
+    const handleClickAdd = () => {
+      //点击添加到画布
+      dispatch(
+        addComponent({
+          fe_id: nanoid(5),
+          type,
+          title,
+          props: defaultProps,
+        })
+      );
+    };
+
     return (
-      <div key={type} className={styles.wrapper}>
+      <div
+        key={type}
+        className={styles.wrapper}
+        onClick={() => handleClickAdd()}
+      >
         <div className={styles.component}>
           <Component />
         </div>

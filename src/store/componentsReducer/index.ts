@@ -22,23 +22,46 @@ export const componentsSlice = createSlice({
   name: "components",
   initialState: INIT_STATE,
   reducers: {
-    //重置所以组件
+    //重置所有组件
     resetComponents: (
       state: ComponentsStateType,
       action: PayloadAction<ComponentsStateType>
     ) => {
       return action.payload;
     },
-    //选中组件
+    //选中画布组件
     changeComponentId: (
       state: ComponentsStateType,
       action: PayloadAction<string>
     ) => {
       return { ...state, id: action.payload };
     },
+    //添加新组件
+    addComponent: (
+      state: ComponentsStateType,
+      action: PayloadAction<ComponentInfoType>
+    ) => {
+      //获取对应的id，将新的组件插入在后面
+      const index = state.componentList.findIndex(
+        (item) => item.fe_id === state.id
+      );
+      let newComponentList = state.componentList.slice();
+      if (index >= 0) {
+        newComponentList.splice(index + 1, 0, action.payload);
+      } else {
+        newComponentList = newComponentList.concat(action.payload);
+      }
+
+      return {
+        ...state,
+        componentList: newComponentList,
+        id: action.payload.fe_id,
+      };
+    },
   },
 });
 
-export const { resetComponents, changeComponentId } = componentsSlice.actions;
+export const { resetComponents, changeComponentId, addComponent } =
+  componentsSlice.actions;
 
 export default componentsSlice.reducer;
