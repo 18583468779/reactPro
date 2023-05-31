@@ -6,10 +6,7 @@ import {
 } from "../../../components/QuestionComponents";
 import { Typography } from "antd";
 import { useDispatch } from "react-redux";
-import {
-  ComponentInfoType,
-  addComponent,
-} from "../../../store/componentsReducer";
+import { addComponent } from "../../../store/componentsReducer";
 import { nanoid } from "nanoid";
 
 const { Title } = Typography;
