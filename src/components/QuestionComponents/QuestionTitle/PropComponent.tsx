@@ -3,17 +3,24 @@ import { QuestionTitleType } from "./type";
 import { Checkbox, Form, Input, Select } from "antd";
 import { useEffect } from "react";
 export const PropComponent: React.FC<QuestionTitleType> = (props) => {
-  const { text, level, isCenter } = props;
-
+  const { text, level, isCenter, onChange } = props;
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue({ text, level, isCenter });
   }, [text, level, isCenter]);
+
+  const onValuesChange = () => {
+    if (onChange) {
+      onChange(form.getFieldsValue());
+    }
+  };
+
   return (
     <Form
       layout="vertical"
       initialValues={{ text, level, isCenter }}
       form={form}
+      onValuesChange={() => onValuesChange()}
     >
       <Form.Item
         label="标题内容"

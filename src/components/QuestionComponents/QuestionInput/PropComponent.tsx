@@ -5,14 +5,24 @@ import { Form, Input } from "antd";
 import { useEffect } from "react";
 
 export const PropComponent: React.FC<QuestionInputType> = (props) => {
-  const { title, placeholder } = props;
+  const { title, placeholder, onChange } = props;
   const [form] = Form.useForm();
   useEffect(() => {
     form.setFieldsValue({ title, placeholder });
   }, [title, placeholder]);
 
+  const onValuesChange = () => {
+    if (onChange) {
+      onChange(form.getFieldsValue());
+    }
+  };
   return (
-    <Form layout="vertical" form={form} initialValues={{ title, placeholder }}>
+    <Form
+      layout="vertical"
+      form={form}
+      initialValues={{ title, placeholder }}
+      onValuesChange={onValuesChange}
+    >
       <Form.Item
         label="标题"
         name="title"

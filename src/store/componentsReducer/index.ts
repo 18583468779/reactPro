@@ -51,17 +51,32 @@ export const componentsSlice = createSlice({
       } else {
         newComponentList = newComponentList.concat(action.payload);
       }
-
       return {
         ...state,
         componentList: newComponentList,
         id: action.payload.fe_id,
       };
     },
+    //同步画布数据
+    syncComponent: (
+      state: ComponentsStateType,
+      action: PayloadAction<{ id: string; val: ComponentPropsType }>
+    ) => {
+      const { val } = action.payload;
+      const index = state.componentList.findIndex(
+        (item) => item.fe_id === state.id
+      );
+      state.componentList[index].props = val;
+      return state;
+    },
   },
 });
 
-export const { resetComponents, changeComponentId, addComponent } =
-  componentsSlice.actions;
+export const {
+  resetComponents,
+  changeComponentId,
+  addComponent,
+  syncComponent,
+} = componentsSlice.actions;
 
 export default componentsSlice.reducer;
