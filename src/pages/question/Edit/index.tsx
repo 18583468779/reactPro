@@ -6,6 +6,7 @@ import { EditCanvas } from "./EditCanvas";
 import { useDispatch } from "react-redux";
 import { changeComponentId } from "../../../store/componentsReducer";
 import { LeftPanel } from "./LeftPanel";
+import { RightPanel } from "./RightPanel";
 
 export const Edit: React.FC = () => {
   const { loading, error } = useLoadingQuestionData();
@@ -31,7 +32,9 @@ export const Edit: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className={styles.right}>right</div>
+          <div className={styles.right}>
+            <RightPanel />
+          </div>
         </div>
       </div>
     </div>
