@@ -33,7 +33,11 @@ export const EditCanvas: React.FC<Props> = (props) => {
     );
   }
 
-  const handleClick = (id: string) => {
+  const handleClick = (
+    id: string,
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
     //选中组件
     dispatch(changeComponentId(id));
   };
@@ -52,7 +56,7 @@ export const EditCanvas: React.FC<Props> = (props) => {
           <div
             className={styleSelected}
             key={fe_id}
-            onClick={() => handleClick(fe_id)}
+            onClick={(e) => handleClick(fe_id, e)}
           >
             <div className={styles.component}>{getComponent(c)}</div>
           </div>
