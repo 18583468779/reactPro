@@ -5,6 +5,7 @@ import { useLoadingQuestionData } from "../../../hook/useLoadingQuestionData";
 import { EditCanvas } from "./EditCanvas";
 import { useDispatch } from "react-redux";
 import { changeComponentId } from "../../../store/componentsReducer";
+import { LeftPanel } from "./LeftPanel";
 
 export const Edit: React.FC = () => {
   const { loading, error } = useLoadingQuestionData();
@@ -20,7 +21,9 @@ export const Edit: React.FC = () => {
       header
       <div className={styles["content-wrapper"]}>
         <div className={styles.content}>
-          <div className={styles.left}>left</div>
+          <div className={styles.left}>
+            <LeftPanel />
+          </div>
           <div className={styles.main} onClick={() => handleClickCancel()}>
             <div className={styles["canvas-wrapper"]}>
               <div>

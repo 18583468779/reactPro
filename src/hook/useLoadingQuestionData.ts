@@ -28,7 +28,6 @@ export function useLoadingQuestionData() {
     //设置默认选中的组件
     let selectId = "";
     if (componentList.length > 0) {
-      console.log(componentList[0]);
       selectId = componentList[0].fe_id;
     }
 

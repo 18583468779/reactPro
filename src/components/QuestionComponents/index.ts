@@ -23,6 +23,11 @@ const componentConfList: ComponentConfType[] = [
   QuestionInputConf,
 ];
 
+//组件分组
+export const componentConfGroup = [
+  { groupName: "文本显示", components: [QuestionTitleConf] },
+  { groupName: "用户输入", components: [QuestionInputConf] },
+];
 export function getComponentConfByType(type: string) {
   return componentConfList.find((c) => c.type === type);
 }
