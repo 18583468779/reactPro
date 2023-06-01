@@ -5,6 +5,7 @@ import { getNextSelectedId } from "./utils";
 export type ComponentInfoType = {
   fe_id: string;
   type: string;
+  isHidden?: boolean;
   title: string;
   props: ComponentPropsType;
 };
@@ -76,6 +77,21 @@ export const componentsSlice = createSlice({
       const newSelectedId = getNextSelectedId(state.id, state.componentList);
       return { id: newSelectedId, componentList: newState };
     },
+    //隐藏显示组件
+    visibleAndHidden: (
+      state: ComponentsStateType,
+      action: PayloadAction<{ isHidden: boolean }>
+    ) => {
+      const { isHidden } = action.payload;
+      const index = state.componentList.findIndex(
+        (item) => item.fe_id === state.id
+      );
+      const newSelectedId = getNextSelectedId(state.id, state.componentList);
+      state.id = newSelectedId;
+      const newState = state.componentList.slice();
+      newState[index].isHidden = isHidden;
+      return state;
+    },
   },
 });
 
@@ -85,6 +101,7 @@ export const {
   addComponent,
   syncComponent,
   removeComponent,
+  visibleAndHidden,
 } = componentsSlice.actions;
 
 export default componentsSlice.reducer;

@@ -44,24 +44,26 @@ export const EditCanvas: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.canvas}>
-      {componentList.map((c) => {
-        const { fe_id } = c;
+      {componentList
+        .filter((c) => !c.isHidden)
+        .map((c) => {
+          const { fe_id } = c;
 
-        const styleSelected =
-          fe_id === id
-            ? [styles["component-wrapper"], styles.selected].join(" ")
-            : styles["component-wrapper"];
+          const styleSelected =
+            fe_id === id
+              ? [styles["component-wrapper"], styles.selected].join(" ")
+              : styles["component-wrapper"];
 
-        return (
-          <div
-            className={styleSelected}
-            key={fe_id}
-            onClick={(e) => handleClick(fe_id, e)}
-          >
-            <div className={styles.component}>{getComponent(c)}</div>
-          </div>
-        );
-      })}
+          return (
+            <div
+              className={styleSelected}
+              key={fe_id}
+              onClick={(e) => handleClick(fe_id, e)}
+            >
+              <div className={styles.component}>{getComponent(c)}</div>
+            </div>
+          );
+        })}
     </div>
   );
 };
