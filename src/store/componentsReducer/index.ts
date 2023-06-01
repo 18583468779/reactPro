@@ -69,6 +69,11 @@ export const componentsSlice = createSlice({
       state.componentList[index].props = val;
       return state;
     },
+    //删除组件
+    removeComponent: (state: ComponentsStateType) => {
+      const newState = state.componentList.filter((c) => c.fe_id !== state.id);
+      return { id: state.id, componentList: newState };
+    },
   },
 });
 
@@ -77,6 +82,7 @@ export const {
   changeComponentId,
   addComponent,
   syncComponent,
+  removeComponent,
 } = componentsSlice.actions;
 
 export default componentsSlice.reducer;
