@@ -3,10 +3,14 @@ import { QuestionInputType } from "./type";
 
 import { Form, Input } from "antd";
 import { useEffect } from "react";
+import { useGetComponentInfo } from "../../../hook/useGetComponentInfo";
 
 export const PropComponent: React.FC<QuestionInputType> = (props) => {
   const { title, placeholder, onChange } = props;
   const [form] = Form.useForm();
+
+  const { selectComponent } = useGetComponentInfo();
+
   useEffect(() => {
     form.setFieldsValue({ title, placeholder });
   }, [title, placeholder]);
@@ -22,6 +26,7 @@ export const PropComponent: React.FC<QuestionInputType> = (props) => {
       form={form}
       initialValues={{ title, placeholder }}
       onValuesChange={onValuesChange}
+      disabled={selectComponent.isLocked ? true : false}
     >
       <Form.Item
         label="标题"

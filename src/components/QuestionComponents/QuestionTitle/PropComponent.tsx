@@ -2,9 +2,12 @@ import * as React from "react";
 import { QuestionTitleType } from "./type";
 import { Checkbox, Form, Input, Select } from "antd";
 import { useEffect } from "react";
+import { useGetComponentInfo } from "../../../hook/useGetComponentInfo";
 export const PropComponent: React.FC<QuestionTitleType> = (props) => {
   const { text, level, isCenter, onChange } = props;
   const [form] = Form.useForm();
+  const { selectComponent } = useGetComponentInfo();
+
   useEffect(() => {
     form.setFieldsValue({ text, level, isCenter });
   }, [text, level, isCenter]);
@@ -21,6 +24,7 @@ export const PropComponent: React.FC<QuestionTitleType> = (props) => {
       initialValues={{ text, level, isCenter }}
       form={form}
       onValuesChange={() => onValuesChange()}
+      disabled={selectComponent.isLocked ? true : false}
     >
       <Form.Item
         label="标题内容"

@@ -6,6 +6,7 @@ export type ComponentInfoType = {
   fe_id: string;
   type: string;
   isHidden?: boolean;
+  isLocked?: boolean;
   title: string;
   props: ComponentPropsType;
 };
@@ -92,6 +93,16 @@ export const componentsSlice = createSlice({
       newState[index].isHidden = isHidden;
       return state;
     },
+    //锁定/解锁组件
+    lockedComponent: (state: ComponentsStateType, action: PayloadAction) => {
+      const index = state.componentList.findIndex(
+        (item) => item.fe_id === state.id
+      );
+      state.componentList[index].isLocked =
+        !state.componentList[index].isLocked;
+
+      return state;
+    },
   },
 });
 
@@ -102,6 +113,7 @@ export const {
   syncComponent,
   removeComponent,
   visibleAndHidden,
+  lockedComponent,
 } = componentsSlice.actions;
 
 export default componentsSlice.reducer;

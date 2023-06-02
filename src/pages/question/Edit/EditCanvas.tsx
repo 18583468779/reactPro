@@ -54,9 +54,10 @@ export const EditCanvas: React.FC<Props> = (props) => {
               ? [styles["component-wrapper"], styles.selected].join(" ")
               : styles["component-wrapper"];
 
+          const styleLock = c.isLocked ? styles.locked : "";
           return (
             <div
-              className={styleSelected}
+              className={styleSelected + " " + styleLock}
               key={fe_id}
               onClick={(e) => handleClick(fe_id, e)}
             >
