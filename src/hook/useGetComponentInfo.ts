@@ -6,7 +6,7 @@ import {
 } from "../store/componentsReducer";
 
 export const useGetComponentInfo = () => {
-  const { componentList, id } = useSelector<StateType>(
+  const { componentList, id, copyComponent } = useSelector<StateType>(
     (state) => state.components
   ) as ComponentsStateType;
 
@@ -14,5 +14,5 @@ export const useGetComponentInfo = () => {
     (c) => c.fe_id === id
   ) as ComponentInfoType;
 
-  return { componentList, id, selectComponent };
+  return { componentList, id, selectComponent, copyComponent };
 };

@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import _ from "lodash";
 import { ComponentPropsType } from "../../components/QuestionComponents";
 import { getNextSelectedId } from "./utils";
 
@@ -14,11 +15,13 @@ export type ComponentInfoType = {
 export type ComponentsStateType = {
   id: string;
   componentList: Array<ComponentInfoType>;
+  copyComponent: ComponentInfoType | null;
 };
 
 const INIT_STATE: ComponentsStateType = {
   id: "",
   componentList: [],
+  copyComponent: null,
 };
 
 export const componentsSlice = createSlice({
@@ -76,7 +79,7 @@ export const componentsSlice = createSlice({
     removeComponent: (state: ComponentsStateType) => {
       const newState = state.componentList.filter((c) => c.fe_id !== state.id);
       const newSelectedId = getNextSelectedId(state.id, state.componentList);
-      return { id: newSelectedId, componentList: newState };
+      return { ...state, id: newSelectedId, componentList: newState };
     },
     //隐藏显示组件
     visibleAndHidden: (
@@ -93,15 +96,23 @@ export const componentsSlice = createSlice({
       newState[index].isHidden = isHidden;
       return state;
     },
-    //锁定/解锁组件
-    lockedComponent: (state: ComponentsStateType, action: PayloadAction) => {
+    //锁定\解锁组件
+    lockedComponent: (state: ComponentsStateType) => {
       const index = state.componentList.findIndex(
         (item) => item.fe_id === state.id
       );
       state.componentList[index].isLocked =
         !state.componentList[index].isLocked;
-
       return state;
+    },
+    //复制组件
+    copyComponentAction: (state: ComponentsStateType) => {
+      const component = state.componentList.find(
+        (item) => item.fe_id === state.id
+      );
+      if (component == null) return;
+      const newComponent = _.cloneDeep(component);
+      return { ...state, copyComponent: newComponent };
     },
   },
 });
@@ -114,6 +125,7 @@ export const {
   removeComponent,
   visibleAndHidden,
   lockedComponent,
+  copyComponentAction,
 } = componentsSlice.actions;
 
 export default componentsSlice.reducer;

@@ -30,7 +30,6 @@ export function useLoadingQuestionData() {
     if (componentList.length > 0) {
       selectId = componentList[0].fe_id;
     }
-
     //componentList存储到redux
     dispatch(resetComponents({ componentList, id: selectId }));
   }, [data]);
