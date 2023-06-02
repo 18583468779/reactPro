@@ -4,6 +4,7 @@
  * **/
 
 import { QuestionRadio } from "./Index";
+import { PropComponent } from "./PropComponent";
 import { QuestionRadioDefault } from "./type";
 
 export * from "./type";
@@ -12,6 +13,6 @@ export default {
   title: "单选框",
   type: "questionRadio",
   Component: QuestionRadio, //画布显示
-  //   PropComponent, //修改属性
+  PropComponent, //修改属性
   defaultProps: QuestionRadioDefault,
 };

@@ -34,7 +34,7 @@ const componentConfList: ComponentConfType[] = [
 export const componentConfGroup = [
   { groupName: "文本显示", components: [QuestionTitleConf] },
   { groupName: "用户输入", components: [QuestionInputConf] },
-  { groupName: "用户单选", components: [QuestionRadioConf] },
+  { groupName: "用户选择", components: [QuestionRadioConf] },
 ];
 export function getComponentConfByType(type: string) {
   return componentConfList.find((c) => c.type === type);
