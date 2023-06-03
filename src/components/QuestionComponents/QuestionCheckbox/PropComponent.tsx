@@ -1,70 +1,69 @@
 import * as React from "react";
-import { OptionType, QuestionRadioType } from "./type";
-import { Button, Checkbox, Form, Input, Select, Space } from "antd";
-import { useEffect } from "react";
+import { OptionType, QuestionCheckboxType } from "./type";
+import { useForm } from "antd/es/form/Form";
+import { Button, Checkbox, Form, Input, Space } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { nanoid } from "nanoid";
 import { useGetComponentInfo } from "../../../hook/useGetComponentInfo";
-export const PropComponent: React.FC<QuestionRadioType> = (props) => {
-  const { title, value, isVertical, options, onChange, disable } = props;
+export const PropComponent: React.FC<QuestionCheckboxType> = (props) => {
+  const { title, isVertical, list, disabled, onChange } = props;
   const { selectComponent } = useGetComponentInfo();
 
-  const [form] = Form.useForm();
-
-  useEffect(() => {
-    form.setFieldsValue({ title, value, isVertical, options });
-  }, [title, value, isVertical, options]);
-
-  const handleOnChange = () => {
+  const [form] = useForm();
+  function handleValuesChange() {
     if (onChange == null) return;
-    // 触发 onChange 函数
-    const newValues = form.getFieldsValue() as QuestionRadioType;
 
-    if (newValues.options) {
-      // 需要清除 text undefined 的选项
-      newValues.options = newValues.options.filter(
-        (opt) => !(opt.text == null)
-      );
+    const newValues = form.getFieldsValue() as QuestionCheckboxType;
+
+    if (newValues.list) {
+      newValues.list = newValues.list.filter((opt) => !(opt.text == null));
     }
-    const { options = [] } = newValues;
-    options.forEach((opt) => {
+
+    const { list = [] } = newValues;
+    list.forEach((opt) => {
       if (opt.value) return;
-      opt.value = nanoid(5); // 补齐 opt value
+      opt.value = nanoid(5);
     });
 
     onChange(newValues);
-  };
+  }
   return (
     <Form
       layout="vertical"
-      initialValues={{ title, value, isVertical, options }}
-      onValuesChange={handleOnChange}
-      disabled={selectComponent.isLocked ? true : false}
       form={form}
+      initialValues={{ title, isVertical, list }}
+      disabled={selectComponent.isLocked ? true : false}
+      onValuesChange={handleValuesChange}
     >
       <Form.Item
         label="标题"
-        name={"title"}
+        name="title"
         rules={[{ required: true, message: "请输入标题" }]}
       >
         <Input />
       </Form.Item>
       <Form.Item label="选项">
-        <Form.List name={"options"}>
+        <Form.List name="list">
           {(fields, { add, remove }) => (
             <>
+              {/* 遍历所有的选项（可删除） */}
               {fields.map(({ key, name }, index) => {
                 return (
                   <Space key={key} align="baseline">
+                    {/* 当前选项 是否选中 */}
+                    <Form.Item name={[name, "checked"]} valuePropName="checked">
+                      <Checkbox />
+                    </Form.Item>
+                    {/* 当前选项 输入框 */}
                     <Form.Item
                       name={[name, "text"]}
                       rules={[
                         { required: true, message: "请输入选项文字" },
                         {
                           validator: (_, text) => {
-                            const { options = [] } = form.getFieldsValue();
+                            const { list = [] } = form.getFieldsValue();
                             let num = 0;
-                            options.forEach((opt: OptionType) => {
+                            list.forEach((opt: OptionType) => {
                               if (opt.text === text) num++; // 记录 text 相同的个数，预期只有 1 个（自己）
                             });
                             if (num === 1) return Promise.resolve();
@@ -75,19 +74,23 @@ export const PropComponent: React.FC<QuestionRadioType> = (props) => {
                         },
                       ]}
                     >
-                      <Input placeholder="请输入选项文字" />
+                      <Input placeholder="输入选项文字..." />
                     </Form.Item>
-                    {index > 1 && (
+
+                    {/* 当前选项 删除按钮 */}
+                    {index > 0 && (
                       <MinusCircleOutlined onClick={() => remove(name)} />
                     )}
                   </Space>
                 );
               })}
+
+              {/* 添加选项 */}
               <Form.Item>
                 <Button
                   type="link"
+                  onClick={() => add({ text: "", value: "", checked: false })}
                   icon={<PlusOutlined />}
-                  onClick={() => add({ text: "", value: "" })}
                   block
                 >
                   添加选项
@@ -97,17 +100,7 @@ export const PropComponent: React.FC<QuestionRadioType> = (props) => {
           )}
         </Form.List>
       </Form.Item>
-
-      <Form.Item label="默认选中" name={"value"}>
-        <Select
-          value={value}
-          options={options?.map(({ text, value }) => ({
-            value,
-            label: text || "",
-          }))}
-        ></Select>
-      </Form.Item>
-      <Form.Item name={"isVertical"} valuePropName="checked">
+      <Form.Item name="isVertical" valuePropName="checked">
         <Checkbox>竖向排列</Checkbox>
       </Form.Item>
     </Form>
