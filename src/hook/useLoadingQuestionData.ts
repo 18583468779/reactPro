@@ -31,7 +31,9 @@ export function useLoadingQuestionData() {
       selectId = componentList[0].fe_id;
     }
     //componentList存储到redux
-    dispatch(resetComponents({ componentList, id: selectId }));
+    dispatch(
+      resetComponents({ componentList, id: selectId, copyComponent: null })
+    );
   }, [data]);
 
   //根据id判断执行ajax
