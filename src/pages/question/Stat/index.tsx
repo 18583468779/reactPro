@@ -6,6 +6,7 @@ import { StatHeader } from "./StatHeader";
 import ComponentList from "./ComponentList";
 import { useState } from "react";
 import { PageStat } from "./PageStat";
+import { ChartStat } from "./ChartStat";
 export const Stat: React.FC = () => {
   const { loading } = useLoadingQuestionData();
   const [selectedComponentId, setSelectedComponentId] = useState("");
@@ -34,7 +35,9 @@ export const Stat: React.FC = () => {
             setSelectedComponentType={setSelectedComponentType}
           />
         </div>
-        <div className={styles.right}>right</div>
+        <div className={styles.right}>
+          <ChartStat />
+        </div>
       </div>
     );
   }
