@@ -4,14 +4,16 @@ import {
   Button,
   Input,
   InputRef,
+  Popover,
   Space,
   Tooltip,
   Typography,
   message,
 } from "antd";
-import { CopyOutlined, LeftOutlined } from "@ant-design/icons";
+import { CopyOutlined, LeftOutlined, QrcodeOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRef } from "react";
+import QRCode from "qrcode.react";
 
 const { Title } = Typography;
 
@@ -30,12 +32,21 @@ export const StatHeader: React.FC = () => {
 
   function genLinkAndQRCodeElem() {
     const url = `http://127.0.0.1:3000/question/${id}`;
+
+    const QRCodeElem = (
+      <div style={{ textAlign: "center" }}>
+        <QRCode value={url} size={150} />
+      </div>
+    );
     return (
       <Space>
         <Input value={url} style={{ width: "300px" }} ref={inputRef} />
         <Tooltip title="拷贝链接">
           <Button icon={<CopyOutlined />} onClick={() => copy()}></Button>
         </Tooltip>
+        <Popover content={QRCodeElem}>
+          <Button icon={<QrcodeOutlined />}></Button>
+        </Popover>
       </Space>
     );
   }

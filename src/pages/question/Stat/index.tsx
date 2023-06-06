@@ -3,9 +3,13 @@ import { useLoadingQuestionData } from "../../../hook/useLoadingQuestionData";
 import { Spin } from "antd";
 import styles from "./index.module.scss";
 import { StatHeader } from "./StatHeader";
+import ComponentList from "./ComponentList";
+import { useState } from "react";
+import { PageStat } from "./PageStat";
 export const Stat: React.FC = () => {
   const { loading } = useLoadingQuestionData();
-
+  const [selectedComponentId, setSelectedComponentId] = useState("");
+  const [selectedComponentType, setSelectedComponentType] = useState("");
   function loadingElement() {
     return (
       <div style={{ textAlign: "center", marginTop: "100px" }}>
@@ -16,8 +20,20 @@ export const Stat: React.FC = () => {
   function getContentElement() {
     return (
       <div className={styles.content}>
-        <div className={styles.left}>left</div>
-        <div className={styles.main}>main</div>
+        <div className={styles.left}>
+          <ComponentList
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
+        <div className={styles.main}>
+          <PageStat
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
         <div className={styles.right}>right</div>
       </div>
     );
